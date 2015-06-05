@@ -1,1 +1,1 @@
-This is a sample README.md fiile with no markdown. I will come back to this later.
+Finance is a project where I'm making some work with financial data from my organization. Basically is more about learning some pandas so I can use it to work.'
