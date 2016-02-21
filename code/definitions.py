@@ -2,7 +2,10 @@
 
 __author__ = 'urban'
 
-import fileinput #Added for removing blank or empty lines
+import fileinput  #Added for removing blank or empty lines
+import pandas as pd
+import numpy as np
+import csv
 
 #Ορισμοί Δομών Δεδομένων απαραίτητων για την ανάλυση
 #Οι τίτλοι των φορέων ως προς τη σημασία τους
@@ -155,4 +158,132 @@ def format_clean_file(in_name,out_name):
                 buf = ''
         else:
             buf = buf + line
-    
+
+
+def exFile(inFile, outFile):
+    #Read in the file to work with
+    in_file = open(inFile,'r',encoding='utf-8')
+    freader = csv.reader(in_file,delimiter=';')
+    out_file = open(outFile,'w',encoding='utf-8')
+    header = True
+    counter = 0
+    new_parts = [] # the parts to be added in each row
+    for row in freader:
+        counter = counter + 1
+        if not header:
+            logar = row[1] #store logariasmo
+            parts = logar.split('.') #brake logariasmo into parts
+            new_parts = [] #new parts to be added
+            vathmos = len(parts) #store vathmo
+            new_parts.append(str(vathmos))
+            try:
+                new_parts.append(parts[1]) #enotita
+            except Exception:
+                new_parts.append('')
+            try:
+                new_parts.append(parts[2]) #foreas
+            except Exception:
+                new_parts.append('')
+            try:
+                new_parts.append(parts[3]) #kae
+            except Exception:
+                new_parts.append('')
+            if vathmos>2:
+                if parts[-1] == '01': #trexon
+                    new_parts.append('1')
+                elif parts[-1] == '02':
+                    new_parts.append('2')
+                else:
+                    new_parts.append('0')
+            else:
+                new_parts.append('0')
+
+            for i in range(3,len(row)-3):
+                row[i] = row[i].replace('.','')
+                row[i] = row[i].replace(',','.')
+        else:
+            #work with header
+            new_parts = ['vathmos','enotita','foreas','kae','trexon']
+            header = False
+
+        str_parts = ';'.join(new_parts)
+        row.append(str_parts)
+        print(';'.join(row),file=out_file)
+    print(counter)
+    in_file.close()
+    out_file.close()
+
+def esFile(inFile, outFile):
+    #Read in the file to work with
+    in_file = open(inFile,'r',encoding='utf-8')
+    freader = csv.reader(in_file,delimiter=';')
+    out_file = open(outFile,'w',encoding='utf-8')
+    header = True
+    counter = 0
+    new_parts = [] # the parts to be added in each row
+    for row in freader:
+        counter = counter + 1
+        if not header:
+            logar = row[1] #store logariasmo
+            parts = logar.split('.') #brake logariasmo into parts
+            new_parts = [] #new parts to be added
+            vathmos = len(parts) #store vathmo
+            new_parts.append(str(vathmos))
+            try:
+                new_parts.append(parts[1]) #enotita
+            except Exception:
+                new_parts.append('')
+            try:
+                new_parts.append(parts[2]) #foreas
+            except Exception:
+                new_parts.append('')
+            try:
+                new_parts.append(parts[3]) #kae
+            except Exception:
+                new_parts.append('')
+
+            for i in range(3,len(row)-3):
+                row[i] = row[i].replace('.','')
+                row[i] = row[i].replace(',','.')
+
+        else:
+            #work with header
+            new_parts = ['vathmos','enotita','foreas','kae']
+            header = False
+
+        str_parts = ';'.join(new_parts)
+        row.append(str_parts)
+        print(';'.join(row),file=out_file)
+    print(counter)
+    in_file.close()
+    out_file.close()
+
+def make_foreis(df):
+    '''
+    Εσωτερική ρουτίνα για να μπορέσουμε να πάρουμε τα δεδομένα όπως τα θέλουμε
+    '''
+    #group the data
+    df = df.groupby(by='foreas', as_index=False).sum()
+    df['pct_diam'] = np.round((df.diamorfomenos / df.eggekrimenos - 1) * 100,decimals=2)
+    return df[['foreas','pct_diam']]
+
+def compute_pivot_tameiakon(df, agg_column):
+    tam = df[(df.kae.str[:1]==u'Τ') & (df.kae.str[1:]=='000')]
+    return tam.pivot_table(agg_column, index='foreas', columns='enotita', aggfunc='sum')
+
+def compute_tameiako_enotitas_xronia(df, enotita):
+    '''Υπολογισμός του ταμειακού υπολοίπου ενότητας'''
+    ret = None
+    try:
+        ret = compute_pivot_tameiakon(df, 'diamorfomenos')[enotita].sum()
+    except KeyError:
+        pass
+    return ret
+
+def add_year_field(df, year):
+    '''
+    Προσθήκη πεδίου έτους στο dataframe και επιστροφή αντιγράφου του dataframe
+    '''
+    t = df.copy()
+    t['year'] = year
+    return t
