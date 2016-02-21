@@ -3,8 +3,25 @@
 __author__ = 'urban'
 
 #Ορισμοί Δομών Δεδομένων απαραίτητων για την ανάλυση
+#Οι τίτλοι των φορέων ως προς τη σημασία τους
+foreis_dict={'071':'PDE',
+             '151':'_IDRIMATA,NEFROPATHEIS',
+             '153':'_KATASKINOSEIS',
+             '191':'_METAFORA MATHITON',
+             '192':'_METAFORA MATHITON',
+             '291':'_AGROTIKI OIKONOMIA',
+             '292':'_KTINIATRIKI',
+             '293':'_ALIEIA',
+             '294':'_EGGEIES VELTIOSEIS',
+             '390':'METAFORON IDIA ESODA',
+             '721':'LEITOYRGIKA,IDIOI POROI, EKLOGES, OLATH ',
+             '722':'TEO',
+             '723':'ANTAPODOTIKA',
+             '724':'ERGA KAP',
+             '725':'ERGA KAP PKM',
+}
 #Οι τίτλοι των χιλιάδων από τους ΚΑΕ
-titles={'0':'PLIROMES GIA YPIRESIES',
+xiliades_dict={'0':'PLIROMES GIA YPIRESIES',
         '1':'PROMITHIES AGATHWN KAI KEFALAIAKOY EXOPLISMOU',
         '2':'PLIROMES METABIBASTIKES',
         '3':'PLIROMES POU ANTIKRIZONTAI APO PRAGMATOPOIOUMENA ESODA',
