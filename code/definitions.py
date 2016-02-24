@@ -25,6 +25,7 @@ foreis_dict={'071':'PDE',
              '724':'ERGA KAP',
              '725':'ERGA KAP PKM',
 }
+
 #Οι τίτλοι των χιλιάδων από τους ΚΑΕ
 xiliades_dict={'0':'PLIROMES GIA YPIRESIES',
         '1':'PROMITHIES AGATHWN KAI KEFALAIAKOY EXOPLISMOU',
@@ -54,6 +55,8 @@ enotites = { '00':'EDRA',
             '06':'SERRES',
             '07':'CHALKIDIKI'
             }
+            
+                                  
 def format_dataframe(indf):
     '''Τα δεδομένα είναι από τον προϋπολογισμό.
     Η συνάρτηση παίρνει το αρχείο εσόδων ή εξόδων και δημιουργεί τα παρακάτω νέα πεδία:
@@ -208,7 +211,7 @@ def exFile(inFile, outFile):
 
         str_parts = ';'.join(new_parts)
         row.append(str_parts)
-        print(';'.join(row),file=out_file)
+        #print(';'.join(row),file=out_file)
     print(counter)
     in_file.close()
     out_file.close()
@@ -253,7 +256,7 @@ def esFile(inFile, outFile):
 
         str_parts = ';'.join(new_parts)
         row.append(str_parts)
-        print(';'.join(row),file=out_file)
+        #print(';'.join(row),file=out_file)
     print(counter)
     in_file.close()
     out_file.close()
