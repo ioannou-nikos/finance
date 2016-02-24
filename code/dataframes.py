@@ -68,7 +68,7 @@ class DataFramesBuilder:
         if df is None:
             df = self.indf.copy()
         return df[logar].str.strip().split(sep).len()
-        
+
     def add_extra_fields(self, df=None):
         '''
         Προσθέτει μερικά επιπλέον πεδία στο dataframe προκειμένου να 
@@ -88,6 +88,9 @@ class DataFramesBuilder:
         df['ena'] = df.logar.str[13:14]
         return df
 
+    def add_col_to_dataframe(self, df=None, col_name, start, end):
+        if df is None:
+            df = self.indf.copy()
     def get_foreis_df(self, df=None):
         """
         Επιστρέφει τα δεδομένα μόνο για τους φορείς. Συγκεκριμένα όσοι 
