@@ -1,1 +1,1 @@
-This is a sample README.md fiile with no markdown. I will come back to this later.
+Κανονικά με αυτό το project θα πρέπει να επιχειρήσω να διαχειριστώ τα προγράμματα - έργα - συμβάσεις με ένα τρόπο που φαντάζομαι αλλά δεν μπορώ να οριστικοποίησω.
